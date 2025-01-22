@@ -3,7 +3,7 @@ Offical code for MQuant: Unleashing the Inference Potential of Multimodal Large 
 
 [**MQuant:
 Unleashing the Inference Potential of Multimodal Large Language Models via Full Static Quantization**](https://arxiv.org/abs/2302.02367)\
-*Jiangyong Yu, Sifan Zhou, Dawei Yang, Shuoyu Li, Shuo Wang, Xing Hu, XUCHEN, Zukang Xu, Changyong Shu and Zhihang Yuan*\
+*Jiangyong Yu, Sifan Zhou, Dawei Yang, Shuoyu Li, Shuo Wang, Xing Hu, Chen Xu, Zukang Xu, Changyong Shu and Zhihang Yuan*\
 Houmo AI, Southeast University, Xian Jiaotong University,\
 *Paper ([arXiv 2302.02367](https://arxiv.org/abs/2302.02367))*
 
