@@ -7,14 +7,18 @@ Unleashing the Inference Potential of Multimodal Large Language Models via Full 
 Houmo AI, Southeast University, Xian Jiaotong University,\
 *Paper ([arXiv 2502.00425](https://arxiv.org/abs/2502.00425))*
 
-
+## Highlight
+MQuant under **W4A8** achieves near-floating-point accuracy (<1% degradation) while reducing inference latency by up to 30% on 5 mainstram MLLMs (Qwen-VL/Intern-VL/Qwen2-VL/GLM-4V/MiniCPM-V)
 
 ## ToDo List
-- [ ] release the quantization code
-- [x] release the paper linke
+- [ ] release the quantization code for other MLLMs
+- [ ] release the quantization code for Qwen-VL
+- [ ] release the core code
+- [ ] update acknowledgement
+- [x] release the paper link
 
 ## Contact
-Any questions or suggestions are welcome! Jiangyong Yu[sifanjay@gmail.com](mailto:sifanjay@gmail.com)
+Any questions or suggestions are welcome! Jiangyong Yu[jiangyongyufocus@gmail.com](mailto:jiangyongyufocus@gmail.com)
 , Sifan Zhou [sifanjay@gmail.com](mailto:sifanjay@gmail.com)
 
 ## Abstract
@@ -28,10 +32,14 @@ MQuant is release under MIT license (see [LICENSE](LICENSE)).
 ## Citation
 If you think our paper or code is helpful, please consider citing our work.
 ```
-@article{Yu2025Mquant,
-title={{MQ}uant: Unleashing the Inference Potential of Multimodal Large Language Models via Full Static Quantization},
-author={Jiangyong Yu, Sifan Zhou, Dawei Yang, Shuoyu Li, Shuo Wang, Xing Hu, XUCHEN, Zukang Xu, Changyong Shu and Zhihang Yuan},
-year={2025},
+@misc{yu2025mquantunleashinginferencepotential,
+      title={MQuant: Unleashing the Inference Potential of Multimodal Large Language Models via Full Static Quantization}, 
+      author={JiangYong Yu and Sifan Zhou and Dawei Yang and Shuo Wang and Shuoyu Li and Xing Hu and Chen Xu and Zukang Xu and Changyong Shu and Zhihang Yuan},
+      year={2025},
+      eprint={2502.00425},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2502.00425}, 
 }
 ```
 
