@@ -20,7 +20,7 @@ Houmo AI, Southeast University, Xian Jiaotong University,\
 - [x] release the paper link
 
 ## Contact
-Any questions or suggestions are welcome! [Jiangyong Yu](jiangyongyufocus@gmail.com](mailto:jiangyongyufocus@gmail.com))
+Any questions or suggestions are welcome! [Jiangyong Yu] [jiangyongyufocus@gmail.com](mailto:jiangyongyufocus@gmail.com)
 , Sifan Zhou [sifanjay@gmail.com](mailto:sifanjay@gmail.com)
 
 ## Abstract
