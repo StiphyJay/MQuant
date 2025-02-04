@@ -1,11 +1,11 @@
 # MQuant
-Offical code for MQuant: Unleashing the Inference Potential of Multimodal Large Language Models via Full Static Quantization
+Offical code for MQuant: Unleashing the Inference Potential of Multimodal Large Language Models via Full Static Quantization.*[Paper] ([arXiv 2502.00425](https://arxiv.org/abs/2502.00425))*
 
 [**MQuant:
 Unleashing the Inference Potential of Multimodal Large Language Models via Full Static Quantization**](https://arxiv.org/abs/2502.00425)\
 *Jiangyong Yu, Sifan Zhou, Dawei Yang, Shuoyu Li, Shuo Wang, Xing Hu, Chen Xu, Zukang Xu, Changyong Shu and Zhihang Yuan*\
 Houmo AI, Southeast University, Xian Jiaotong University,\
-*Paper ([arXiv 2502.00425](https://arxiv.org/abs/2502.00425))*
+
 
 ## Highlight
 MQuant under **W4A8** achieves near-floating-point accuracy (<1% degradation) while reducing inference latency by up to 30% on 5 mainstram MLLMs (Qwen-VL/Intern-VL/Qwen2-VL/GLM-4V/MiniCPM-V)
