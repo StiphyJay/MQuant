@@ -8,8 +8,8 @@ Houmo AI, Southeast University, Xian Jiaotong University,\
 
 
 ## Highlight
-- MQuant is thr first quantization solution for Multimodal large language models applicable to 5 mainstream MLLMs.
-- MQuant under **W4A8** achieves near-floating-point accuracy (<1% degradation) while reducing inference latency by up to 30% on 5 mainstram MLLMs (Qwen-VL/Intern-VL/Qwen2-VL/GLM-4V/MiniCPM-V).
+- MQuant is the first quantization solution for Multimodal large language models applicable to 5 mainstream MLLMs.
+- MQuant achieves near-floating-point accuracy (<1% degradation) while reducing inference latency by up to 30% on 5 mainstram MLLMs (Qwen-VL/Intern-VL/Qwen2-VL/GLM-4V/MiniCPM-V) under **W4A8** setting.
 
 ## ToDo List
 - [ ] release the quantization code for other MLLMs
