@@ -1,5 +1,5 @@
 # MQuant
-Offical code for MQuant: Unleashing the Inference Potential of Multimodal Large Language Models via Full Static Quantization.*[Paper] ([arXiv 2502.00425](https://arxiv.org/abs/2502.00425))*
+Offical code for MQuant: Unleashing the Inference Potential of Multimodal Large Language Models via Full Static Quantization.*([Paper](https://arxiv.org/abs/2502.00425))*
 
 [**MQuant:
 Unleashing the Inference Potential of Multimodal Large Language Models via Full Static Quantization**](https://arxiv.org/abs/2502.00425)\
