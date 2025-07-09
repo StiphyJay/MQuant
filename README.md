@@ -4,7 +4,7 @@ Offical code for **ACM MM2025** paper MQuant: Unleashing the Inference Potential
 
 ## News
 
-2025.07.06: 🔥🔥🔥 MQuant has been accepted by accppted by ACM MM2025.
+2025.07.06: 🔥🔥🔥 MQuant has been accepted by ACM MM2025.
 
 ## ToDo List
 - [ ] release the quantization code for other MLLMs
