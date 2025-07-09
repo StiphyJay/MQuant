@@ -5,6 +5,8 @@ Offical code for MQuant: Unleashing the Inference Potential of Multimodal Large 
 Unleashing the Inference Potential of Multimodal Large Language Models via Full Static Quantization**](https://arxiv.org/abs/2502.00425)\
 
 
+🚀 MQuant is accppted by ACM MM2025.
+
 ## Highlight
 - MQuant is the first quantization solution for Multimodal large language models applicable to 5 mainstream MLLMs.
 - MQuant proposes the **Modality-Specific Static Quantization (MSQ)** to significantly reduce the Time-to-First-Token (TTFT) and **Rotation Magnitude Suppression (RMS)** to mitigate weight outliers.
