@@ -2,7 +2,12 @@
 
 2025.07.06: 🔥🔥🔥 MQuant has been accepted by accppted by ACM MM2025.
 
-
+## ToDo List
+- [ ] release the quantization code for other MLLMs
+- [ ] release the quantization code for Qwen-VL
+- [ ] release the core code after the paper accepted
+- [ ] update acknowledgement
+- [x] release the paper link
 
 Offical code for **ACM MM2025** paper MQuant: Unleashing the Inference Potential of Multimodal Large Language Models via Full Static Quantization.*([Paper](https://arxiv.org/abs/2502.00425))*
 
@@ -15,12 +20,7 @@ Unleashing the Inference Potential of Multimodal Large Language Models via Full 
 - MQuant proposes the **Modality-Specific Static Quantization (MSQ)** to significantly reduce the Time-to-First-Token (TTFT) and **Rotation Magnitude Suppression (RMS)** to mitigate weight outliers.
 - MQuant achieves near-floating-point accuracy (**<1%** degradation) while reducing inference latency by up to **30%** on 5 mainstram MLLMs (Qwen-VL/Intern-VL/Qwen2-VL/GLM-4V/MiniCPM-V) under **W4A8** setting.
 
-## ToDo List
-- [ ] release the quantization code for other MLLMs
-- [ ] release the quantization code for Qwen-VL
-- [ ] release the core code after the paper accepted
-- [ ] update acknowledgement
-- [x] release the paper link
+
 
 ## Contact
 Any questions or suggestions are welcome! [Jiangyong Yu] [jiangyongyufocus@gmail.com](mailto:jiangyongyufocus@gmail.com)
