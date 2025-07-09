@@ -1,7 +1,7 @@
 # MQuant
-[**MQuant:
-Unleashing the Inference Potential of Multimodal Large Language Models via Full Static Quantization**](https://arxiv.org/abs/2502.00425)\
-Offical code for **ACM MM2025** paper MQuant: Unleashing the Inference Potential of Multimodal Large Language Models via Full Static Quantization.*([Arxiv](https://arxiv.org/abs/2502.00425))*
+
+Offical code for **ACM MM2025** paper [**MQuant:
+Unleashing the Inference Potential of Multimodal Large Language Models via Full Static Quantization**](https://arxiv.org/abs/2502.00425)\*([Arxiv](https://arxiv.org/abs/2502.00425))*
 
 ## News
 
