@@ -1,11 +1,11 @@
 # MQuant
-Offical code for MQuant: Unleashing the Inference Potential of Multimodal Large Language Models via Full Static Quantization.*([Paper](https://arxiv.org/abs/2502.00425))*
+Offical code for for ACM MM2025 pape MQuant: Unleashing the Inference Potential of Multimodal Large Language Models via Full Static Quantization.*([Paper](https://arxiv.org/abs/2502.00425))*
 
 [**MQuant:
 Unleashing the Inference Potential of Multimodal Large Language Models via Full Static Quantization**](https://arxiv.org/abs/2502.00425)\
 
 
-🚀 MQuant is accppted by ACM MM2025.
+2025.07.06: 🔥🔥🔥 MQuant has been accepted by accppted by ACM MM2025.
 
 ## Highlight
 - MQuant is the first quantization solution for Multimodal large language models applicable to 5 mainstream MLLMs.
