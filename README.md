@@ -1,4 +1,7 @@
 # MQuant
+
+2025.07.06: 🔥🔥🔥 MQuant has been accepted by accppted by ACM MM2025.
+
 Offical code for for ACM MM2025 paper MQuant: Unleashing the Inference Potential of Multimodal Large Language Models via Full Static Quantization.*([Paper](https://arxiv.org/abs/2502.00425))*
 
 [**MQuant:
