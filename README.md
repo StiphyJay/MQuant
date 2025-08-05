@@ -10,7 +10,7 @@ Unleashing the Inference Potential of Multimodal Large Language Models via Full 
 ## ToDo List
 
 - [ ] release the quantization code for other MLLMs
-- [ ] release the quantization code for Qwen-VL
+- [x] release the quantization code for Qwen-VL
 - [ ] release the core code after the paper accepted
 - [ ] update acknowledgement
 - [x] release the paper link
@@ -25,7 +25,7 @@ Unleashing the Inference Potential of Multimodal Large Language Models via Full 
 
 ### 1. Installation
 
-      [see here](docs/install.md)
+[see here](docs/install.md)
 
 ### 2. Quant Model
 
