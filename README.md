@@ -5,7 +5,9 @@ Unleashing the Inference Potential of Multimodal Large Language Models via Full 
 
 ## News
 2025.08.05: 🔥🔥🔥 MQuant for Intern-VL2 and MiniCPM-V has been released. Looking forward to your response!
+
 2025.08.04: 🔥🔥🔥 MQuant for Qwen-VL has been released. Looking forward to your response!
+
 2025.07.06: 🔥🔥🔥 MQuant has been accepted by ACM MM2025.
 
 ## ToDo List
