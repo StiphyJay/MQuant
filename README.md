@@ -8,8 +8,8 @@ Unleashing the Inference Potential of Multimodal Large Language Models via Full 
 2025.07.06: 🔥🔥🔥 MQuant has been accepted by ACM MM2025.
 
 ## ToDo List
-
-- [ ] release the quantization code for other MLLMs
+- [ ] support more MLLMs
+- [x] release the quantization code for Intern-VL2, MiniCPM-V 
 - [x] release the quantization code for Qwen-VL
 - [x] release the core code after the paper accepted
 - [x] update acknowledgement
