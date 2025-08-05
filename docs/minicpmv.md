@@ -1,8 +1,8 @@
 # minicpmv
 
-## 模型修改
+## Model Change
 
-### 1.1下载原始权重
+### 1.1 Download the model weights
 
 ```shell
 GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/openbmb/MiniCPM-V-2_6
@@ -11,11 +11,11 @@ git lfs pull
 ln -s path weights
 ```
 
-### 1.2运行脚本，生成opt之后的版本
+### 1.2 generate the opt version model weights
 
-#### 1.2.3.1 运行脚本
+#### 1.2.3.1 run script
 
-执行以下命令来复制权重文件夹并运行优化脚本
+copy weights folder and run the optimize script
 
 ```shell
 cp -r weights/MiniCPM-V-2_6 weights/MiniCPM-V-2_6-opt
@@ -24,13 +24,13 @@ export CUDA_VISIBLE_DEVICES=1
 python exam/minicpmv_opt.py
 ```
 
-#### 替换weights/MiniCPM-V-2_6-opt/resampler.py 文件
+#### replace weights/MiniCPM-V-2_6-opt/resampler.py
 
 ```bash
 cp plugin/resampler.py weights/MiniCPM-V-2_6-opt/
 ```
 
-## 量化
+## Quantization
 
 ### OCRBench
 
