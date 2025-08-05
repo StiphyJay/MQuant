@@ -11,8 +11,8 @@ Unleashing the Inference Potential of Multimodal Large Language Models via Full 
 
 - [ ] release the quantization code for other MLLMs
 - [x] release the quantization code for Qwen-VL
-- [ ] release the core code after the paper accepted
-- [ ] update acknowledgement
+- [x] release the core code after the paper accepted
+- [x] update acknowledgement
 - [x] release the paper link
 
 ## Highlight
@@ -49,19 +49,20 @@ Any questions or suggestions are welcome! Jiangyong Yu [jiangyongyufocus@gmail.c
 
 [![Star History Chart](https://api.star-history.com/svg?repos=StiphyJay/MQuant&type=Date)](https://star-history.com/#StiphyJay/MQuant&Date)
 
+## Acknowledgement
+
+Our implementation is based on [Quarot](https://github.com/spcl/QuaRot), [GPTQ](https://github.com/IST-DASLab/gptq) and [VLMEvalKit](https://github.com/open-compass/VLMEvalKit). Thanks for the great open-source work!
+
 ## Citation
 
 If you think our paper or code is helpful, please consider citing our work.
 
 ```
-@misc{yu2025mquantunleashinginferencepotential,
+@inproceedings{yu2025mquant,
       title={MQuant: Unleashing the Inference Potential of Multimodal Large Language Models via Full Static Quantization}, 
       author={JiangYong Yu and Sifan Zhou and Dawei Yang and Shuo Wang and Shuoyu Li and Xing Hu and Chen Xu and Zukang Xu and Changyong Shu and Zhihang Yuan},
-      year={2025},
-      eprint={2502.00425},
-      archivePrefix={arXiv},
-      primaryClass={cs.CV},
-      url={https://arxiv.org/abs/2502.00425}, 
+      booktitle={Proceedings of the 33rd ACM international conference on multimedia (MM'25)},
+      year={2025}
 }
 ```
 
