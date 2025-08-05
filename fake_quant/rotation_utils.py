@@ -230,6 +230,17 @@ def fuse_qwenvl_layer_norms(model, args):
         fuse_ln_linear(model.transformer.ln_f, [model.lm_head])
 
 
+def rotate_conv(layer, Q_v, embed_dims):
+    dtype = layer.weight.dtype
+    weight_shape = layer.weight.data.shape
+    layer.weight.data = (
+        torch.matmul(Q_v.T, layer.weight.data.double().view(embed_dims, -1))
+        .to(dtype)
+        .view(weight_shape)
+    )
+    if layer.bias is not None:
+        layer.bias.data = torch.matmul(layer.bias.data.double(), Q_v).to(dtype)
+
 def rotate_embeddings(model, Q, is_minicpmv=False) -> None:
     if not is_minicpmv:
         dtype = model.transformer.wte.weight.data.dtype

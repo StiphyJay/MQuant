@@ -25,13 +25,21 @@ Unleashing the Inference Potential of Multimodal Large Language Models via Full 
 
 ### 1. Installation
 
-[see here](docs/install.md)
+      [see here](docs/install.md)
 
 ### 2. Quant Model
 
 #### 1. QwenVL
 
-[see here](docs/qwenvl.md)
+      [see here](docs/qwenvl.md)
+
+#### 2. InternVL2
+
+      [see here](docs/internvl.md)
+
+#### 3. Minicpmv
+
+      [see here](docs/minicpmv.md)
 
 ## Contact
 

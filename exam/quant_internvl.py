@@ -1,15 +1,12 @@
 import torch, torch.nn as nn, torch.nn.functional as F, argparse, datetime, os
-from model.modeling_qwen_opt import QWenLMHeadModel
-from model.tokenization_qwen import QWenTokenizer
 from loguru import logger
+from evaluation.eval import eval_dataset
 from fake_quant import quant_utils
 from fake_quant import gptq
-import functools
 from fake_quant import utils
 from fake_quant import hadamard_utils
-from fake_quant.rotation_utils import fuse_qwenvl_layer_norms, rotate_model
-from vlmeval.vlm.qwen_vl import QQwenVLChat
-from evaluation.eval import eval_dataset
+from fake_quant.internvl_rotation import fuse_internvl_layer_norms, rotate_internvl2_model
+from vlmeval.config import supported_VLM
 
 torch.set_grad_enabled(False)
 
@@ -23,100 +20,45 @@ def init_logger(args):
     logger.add(logger_file)
 
 
-def demo(tokenizer, model):
-    # 第一轮对话
-    query = tokenizer.from_list_format(
-        [
-            {
-                "image": "assert/images/demo.jpeg"
-            },  # Either a local path or an url
-            {"text": "这是什么?"},
-        ]
-    )
-    response, history = model.chat(
-        tokenizer, query=query, history=None, do_sample=False, num_beams=1, top_p=1
-    )
-    print(response)
-    # 图中是一名女子在沙滩上和狗玩耍，旁边是一只拉布拉多犬，它们处于沙滩上。
-
-    # 第二轮对话
-    response, history = model.chat(
-        tokenizer,
-        "框出图中击掌的位置",
-        history=history,
-        do_sample=False,
-        num_beams=1,
-        top_p=1,
-    )
-    print(response)
-    # <ref>击掌</ref><box>(536,509),(588,602)</box>
-    image = tokenizer.draw_bbox_on_latest_picture(response, history)
-    if image:
-        image.save("1.jpg")
-    else:
-        print("no box")
-
-
-def get_qwen_model(model_id="weights/Qwen-VL-Chat-opt", fp16=True, fp32=False):
-    tokenizer = QWenTokenizer.from_pretrained(
-        model_id,
-    )
-    model = QWenLMHeadModel.from_pretrained(
-        model_id,
-        config=f"{model_id}/config.json",
-        device_map="cuda",
-        fp16=fp16,
-        fp32=fp32,
-    ).eval()
-    return model, tokenizer
-
-
 def main(args):
-    model, tokenizer = get_qwen_model()
+    model_name = "InternVL2-8B"
+    model = supported_VLM[model_name](model_path="weights/InternVL2-8B")
+    quant_utils.fuse_internvl(model)
 
     utils.seed_everything(args.seed)
     if not args.not_fuse_layer_norms:
-        fuse_qwenvl_layer_norms(model, args)
+        fuse_internvl_layer_norms(model, args)
     if args.rotate:
-        rotate_model(model, args)
-    model.half()
+        rotate_internvl2_model(model.model, args)
 
-    model = QQwenVLChat(model, tokenizer)
     if not args.quant and args.online_llm_hadamard:
         if args.rotate_llm:
             args.quant_llm = True
-        quant_utils.qwenvl_add_act_qaunt(model.model, args)
+        quant_utils.internvl_add_act_qaunt(model, args)
         qlayers = quant_utils.find_qlayers(
-            model.model, layers=[quant_utils.ActQuantWrapper]
+            model.model.language_model, layers=[quant_utils.ActQuantWrapper]
         )
         for name in qlayers:
-            if "mlp.c_proj" in name and "transformer.h" in name:
-                had_K, K = hadamard_utils.get_hadK(model.model.config.intermediate_size)
+            if "feed_forward.w2" in name:
+                had_K, K = hadamard_utils.get_hadK(
+                    model.model.config.llm_config.intermediate_size
+                )
                 qlayers[name].online_full_had = True
                 qlayers[name].had_K = had_K
                 qlayers[name].K = K
                 qlayers[name].fp32_had = args.fp32_had
-                if model.model.config.need_pad:
-                    hook = functools.partial(
-                        utils.revise_down_input,
-                        new_size=model.model.config.intermediate_size,
-                    )
-                    qlayers[name].register_forward_pre_hook(hook)
 
     if not args.quant and args.online_visual_hadamard:
         if args.rotate_visual_clip:
             args.quant_visual_clip = True
-        quant_utils.qwenvl_add_act_qaunt(model.model, args)
+        quant_utils.internvl_add_act_qaunt(model, args)
         qlayers = quant_utils.find_qlayers(
-            model.model.transformer.visual, layers=[quant_utils.ActQuantWrapper]
+            model.model.vision_model, layers=[quant_utils.ActQuantWrapper]
         )
         for name in qlayers:
-            if "mlp.c_proj" in name and "transformer.resblock" in name:
+            if "mlp.fc2" in name:
                 had_K, K = hadamard_utils.get_hadK(
-                    int(
-                        model.model.config.visual["width"]
-                        * model.model.config.visual["mlp_ratio"]
-                    )
+                    int(model.model.config.vision_config.intermediate_size)
                 )
                 qlayers[name].online_full_had = True
                 qlayers[name].had_K = had_K
@@ -130,29 +72,22 @@ def main(args):
         if args.online_visual_hadamard:
             if args.rotate_visual_clip:
                 args.quant_visual_clip = True
-        quant_utils.qwenvl_add_act_qaunt(model.model, args)
+        quant_utils.internvl_add_act_qaunt(model, args)
 
         if args.online_llm_hadamard and args.rotate_llm:
             print("adding online hadamard rotation")
             qlayers = quant_utils.find_qlayers(
-                model.model, layers=[quant_utils.ActQuantWrapper]
+                model.model.language_model, layers=[quant_utils.ActQuantWrapper]
             )
             for name in qlayers:
-                if "mlp.c_proj" in name and "transformer.h" in name:
+                if "feed_forward.w2" in name:
                     had_K, K = hadamard_utils.get_hadK(
-                        model.model.config.intermediate_size
+                        model.model.config.llm_config.intermediate_size
                     )
                     qlayers[name].online_full_had = True
                     qlayers[name].had_K = had_K
                     qlayers[name].K = K
                     qlayers[name].fp32_had = args.fp32_had
-                    if model.model.config.need_pad:
-                        hook = functools.partial(
-                            utils.revise_down_input,
-                            new_size=model.model.config.intermediate_size,
-                        )
-                        qlayers[name].register_forward_pre_hook(hook)
-
                     qlayers[name].split = args.llm_split
                     if args.llm_split:
                         qlayers[name].split_weights()
@@ -160,15 +95,12 @@ def main(args):
         if args.online_visual_hadamard and args.rotate_visual_clip:
             print("adding online hadamard rotation")
             qlayers = quant_utils.find_qlayers(
-                model.model, layers=[quant_utils.ActQuantWrapper]
+                model.model.vision_model, layers=[quant_utils.ActQuantWrapper]
             )
             for name in qlayers:
-                if "mlp.c_proj" in name and "transformer.resblock" in name:
+                if "mlp.fc2" in name:
                     had_K, K = hadamard_utils.get_hadK(
-                        int(
-                            model.model.config.visual["width"]
-                            * model.model.config.visual["mlp_ratio"]
-                        )
+                        int(model.model.config.vision_config.intermediate_size)
                     )
                     qlayers[name].online_full_had = True
                     qlayers[name].had_K = had_K
@@ -178,31 +110,36 @@ def main(args):
                     if args.visual_split:
                         qlayers[name].split_weights()
 
+        model.model.to(utils.DEV)
+
         if args.load_gptq:
             print("Loading GPTQ model from: ", args.load_gptq)
-            model = torch.load(args.load_gptq)
+            model.model = torch.load(args.load_gptq)
         else:
-            dataset = None
-            if not args.visual_w_rtn or not args.llm_w_rtn:
-                from vlmeval.dataset import build_dataset
+            # from torch.utils.data import ConcatDataset
+            from vlmeval.dataset import build_dataset
 
-                dataset = build_dataset(args.dataset_name)
+            dataset = build_dataset(args.dataset_name)
+            if not hasattr(model, "dump_image_func"):
                 model.set_dump_image(dataset.dump_image)
 
-            gptq.qwenvl_rtn_gptq_fwrd_plus(model, dataset, utils.DEV, args)
-
-        if args.dump_gptq:
-            torch.save(model, args.dump_gptq)
-            print("Dumped the GPTQ model to: ", args.dump_gptq)
+            gptq.internvl_rtn_gptq_fwrd_plus(
+                model, dataset, utils.DEV, args.dataset_name, args
+            )
+            if args.dump_gptq:
+                torch.save(model.model, args.dump_gptq)
+                print("Dumped the GPTQ model to: ", args.dump_gptq)
 
         if args.visual_a_bits < 16 or args.visual_static:
             if args.visual_static and args.visual_a_bits >= 16:
-                print(
-                    "if you want to run act with fp16, please set --visual_static False"
-                )
-            # quant visual
+                print("if you want to run act with fp16, please set --static False")
             qlayers = quant_utils.find_qlayers(
-                model.model.transformer.visual, layers=[quant_utils.ActQuantWrapper]
+                model.model.vision_model, layers=[quant_utils.ActQuantWrapper]
+            )
+            qlayers.update(
+                quant_utils.find_qlayers(
+                    model.model.mlp1, layers=[quant_utils.ActQuantWrapper]
+                )
             )
             for name in qlayers:
                 if any(p_name in name for p_name in args.skip_names):
@@ -217,15 +154,16 @@ def main(args):
                     groupsize=layer_groupsize,
                     sym=layer_a_sym,
                     clip_ratio=layer_a_clip,
+                    act_per_tensor=args.act_per_tensor,
                     static=args.visual_static,
                     observer_type="minmax",
                 )
 
         if args.llm_a_bits < 16 or args.llm_static:
             if args.llm_static and args.llm_a_bits >= 16:
-                print("if you want to run act with fp16, please set --llm_static False")
+                print("if you want to run act with fp16, please set --static False")
             qlayers = quant_utils.find_qlayers(
-                model.model.transformer.h, layers=[quant_utils.ActQuantWrapper]
+                model.model.language_model, layers=[quant_utils.ActQuantWrapper]
             )
             for name in qlayers:
                 if any(p_name in name for p_name in args.skip_names):
@@ -240,25 +178,27 @@ def main(args):
                     groupsize=layer_groupsize,
                     sym=layer_a_sym,
                     clip_ratio=layer_a_clip,
+                    act_per_tensor=args.act_per_tensor,
                     static=args.llm_static,
                     observer_type="minmax",
-                    act_per_tensor=args.act_per_tensor,
                 )
-    model.model.to(utils.DEV)
-    demo(tokenizer, model.model)
 
     from vlmeval.dataset import build_dataset
 
     dataset = build_dataset(args.dataset_name)
-    model.set_dump_image(dataset.dump_image)
-    if args.visual_static or args.llm_static:
+
+    if not hasattr(model, "dump_image_func"):
+        model.set_dump_image(dataset.dump_image)
+
+    if args.llm_static or args.visual_static:
         quant_utils.calib_vqa_plus(model, args, dataset, args.calib_num)
 
     eval_dataset(
         model,
         dataset,
         args.dataset_name,
-        model_name="QWen-VL-Chat",
+        model_name="InternVL-Chat",
+        verbose=False,
     )
 
 
@@ -313,7 +253,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--visual_a_bits",
         type=int,
-        default=16,
+        default=8,
         help="""Number of bits for inputs of the Linear layers. This will be
                         for all the linear layers in the model (including down-projection and out-projection)""",
     )
@@ -321,7 +261,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--llm_a_bits",
         type=int,
-        default=16,
+        default=8,
         help="""Number of bits for inputs of the Linear layers. This will be
                         for all the linear layers in the model (including down-projection and out-projection)""",
     )
@@ -348,13 +288,13 @@ if __name__ == "__main__":
     parser.add_argument(
         "--visual_w_bits",
         type=int,
-        default=16,
+        default=4,
         help="Number of bits for weights of the Linear layers",
     )
     parser.add_argument(
         "--llm_w_bits",
         type=int,
-        default=16,
+        default=4,
         help="Number of bits for weights of the Linear layers",
     )
     parser.add_argument(
@@ -418,7 +358,7 @@ if __name__ == "__main__":
         "--quant_llm",
         action="store_true",
         default=False,
-        help="Quantize the QWen7B llm model",
+        help="Quantize the InternVL2-8B llm model",
     )
 
     parser.add_argument(
@@ -460,7 +400,7 @@ if __name__ == "__main__":
         "--no_fuse_visual_clip",
         action="store_true",
         default=False,
-        help="Quantize the QWen7B llm model",
+        help="Quantize the InternVL2-8B llm model",
     )
 
     parser.add_argument(
@@ -533,7 +473,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--dataset_name",
         type=str,
-        default="OCRBench",
+        default="TextVQA_VAL",
         help="dataset name",
     )
     parser.add_argument(

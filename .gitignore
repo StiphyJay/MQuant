@@ -1,2 +1,4 @@
 *.pyc
 weights/
+output/
+log

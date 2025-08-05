@@ -1,0 +1,97 @@
+# minicpmv
+
+## 模型修改
+
+### 1.1下载原始权重
+
+```shell
+GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/openbmb/MiniCPM-V-2_6
+cd MiniCPM-V-2_6
+git lfs pull
+ln -s path weights
+```
+
+### 1.2运行脚本，生成opt之后的版本
+
+#### 1.2.3.1 运行脚本
+
+执行以下命令来复制权重文件夹并运行优化脚本
+
+```shell
+cp -r weights/MiniCPM-V-2_6 weights/MiniCPM-V-2_6-opt
+export PYTHONPATH=.
+export CUDA_VISIBLE_DEVICES=1
+python exam/minicpmv_opt.py
+```
+
+#### 替换weights/MiniCPM-V-2_6-opt/resampler.py 文件
+
+```bash
+cp plugin/resampler.py weights/MiniCPM-V-2_6-opt/
+```
+
+## 量化
+
+### OCRBench
+
+#### OCRBench w8a8 + w4a8
+
+```shell
+export PYTHONPATH=.
+python exam/quant_minicpmv.py --rotate --rotate_visual_clip --rotate_visual_cross_attn --rotate_llm --visual_w_bits 8 --visual_a_bits 8 --llm_w_bits 4 --llm_a_bits 8 --quant --quant_llm --quant_visual_clip --quant_cross_attention  --visual_w_clip --llm_w_clip --visual_static --llm_static --online_llm_hadamard --act_order --dataset_name OCRBench --nsamples 128 --calib_num 128 --online_visual_hadamard --visual_split
+```
+
+#### OCRBench w4a8 + w4a8
+
+```shell
+export PYTHONPATH=.
+python exam/quant_minicpmv.py --rotate --rotate_visual_clip --rotate_visual_cross_attn --rotate_llm --visual_w_bits 4 --visual_a_bits 8 --llm_w_bits 4 --llm_a_bits 8 --quant --quant_llm --quant_visual_clip --quant_cross_attention  --visual_w_clip --llm_w_clip --visual_static --llm_static --online_llm_hadamard --act_order --dataset_name OCRBench --nsamples 128 --calib_num 128 --online_visual_hadamard --visual_split
+```
+
+### MME
+
+#### MME w8a8 + w4a8
+
+```shell
+export PYTHONPATH=.
+python exam/quant_minicpmv.py --rotate --rotate_visual_clip --rotate_visual_cross_attn --rotate_llm --visual_w_bits 8 --visual_a_bits 8 --llm_w_bits 4 --llm_a_bits 8 --quant --quant_llm --quant_visual_clip --quant_cross_attention  --visual_w_clip --llm_w_clip --visual_static --llm_static --dump_gptq output/gptq/qwenvl_ours_mme_visual_w8a8_llm_w4a8_gptq.pth --online_llm_hadamard --act_order --dataset_name MME --nsamples 256 --calib_num 512 --online_visual_hadamard --visual_split
+```
+
+#### MME w4a8 + w4a8
+
+```shell
+export PYTHONPATH=.
+python exam/quant_minicpmv.py --rotate --rotate_visual_clip --rotate_visual_cross_attn --rotate_llm --visual_w_bits 4 --visual_a_bits 8 --llm_w_bits 4 --llm_a_bits 8 --quant --quant_llm --quant_visual_clip --quant_cross_attention  --visual_w_clip --llm_w_clip --visual_static --llm_static --dump_gptq output/gptq/qwenvl_ours_mme_visual_w4a8_llm_w4a8_gptq.pth --online_llm_hadamard --act_order --dataset_name MME --nsamples 256 --calib_num 512 --online_visual_hadamard --visual_split
+```
+
+### TextVQA
+
+#### TextVQA w8a8 + w4a8
+
+```shell
+export PYTHONPATH=.
+python exam/quant_minicpmv.py --rotate --rotate_visual_clip --rotate_visual_cross_attn --rotate_llm --quant --quant_llm --quant_visual_clip --quant_cross_attention --visual_w_bits 8 --visual_a_bits 8 --llm_w_bits 4 --llm_a_bits 8 --visual_static --visual_w_clip --llm_w_clip --act_order --online_llm_hadamard  --llm_static --dataset_name TextVQA_VAL --online_visual_hadamard --visual_split --calib_num 256 --nsamples 128
+```
+
+#### TextVQA w4a8 + w4a8
+
+```shell
+export PYTHONPATH=.
+python exam/quant_minicpmv.py --rotate --rotate_visual_clip --rotate_visual_cross_attn --rotate_llm --quant --quant_llm --quant_visual_clip --quant_cross_attention --visual_w_bits 4 --visual_a_bits 8 --llm_w_bits 4 --llm_a_bits 8 --visual_static --visual_w_clip --llm_w_clip --act_order --online_llm_hadamard  --llm_static --dataset_name TextVQA_VAL --online_visual_hadamard --visual_split --calib_num 256 --nsamples 128
+```
+
+### DocVQA
+
+#### DocVQA w8a8 + w4a8
+
+```shell
+export PYTHONPATH=.
+python exam/quant_minicpmv.py --rotate --rotate_visual_clip --rotate_visual_cross_attn --rotate_llm --quant --quant_llm --quant_visual_clip --quant_cross_attention --visual_w_bits 8 --visual_a_bits 8 --llm_w_bits 4 --llm_a_bits 8 --visual_static --visual_w_clip --llm_w_clip --act_order --online_llm_hadamard  --llm_static --dataset_name DocVQA_VAL --online_visual_hadamard --visual_split --calib_num 256 --nsamples 128
+```
+
+#### DocVQA w4a8 + w4a8
+
+```shell
+export PYTHONPATH=.
+python exam/quant_minicpmv.py --rotate --rotate_visual_clip --rotate_visual_cross_attn --rotate_llm --quant --quant_llm --quant_visual_clip --quant_cross_attention --visual_w_bits 4 --visual_a_bits 8 --llm_w_bits 4 --llm_a_bits 8 --visual_static --visual_w_clip --llm_w_clip --act_order --online_llm_hadamard  --llm_static --dataset_name DocVQA_VAL --online_visual_hadamard --visual_split --calib_num 256 --nsamples 128
+```
