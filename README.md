@@ -31,15 +31,15 @@ Unleashing the Inference Potential of Multimodal Large Language Models via Full 
 
 #### 1. QwenVL
 
-      [see here](docs/qwenvl.md)
+[see here](docs/qwenvl.md)
 
 #### 2. InternVL2
 
-      [see here](docs/internvl.md)
+[see here](docs/internvl.md)
 
 #### 3. Minicpmv
 
-      [see here](docs/minicpmv.md)
+[see here](docs/minicpmv.md)
 
 ## Contact
 
