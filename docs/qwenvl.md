@@ -1,8 +1,8 @@
 # QwenVL Chat
 
-## 模型修改
+## change model
 
-1. 下载原始权重
+1. download original model weights
 
     ```shell
         mkdir weights
@@ -10,7 +10,7 @@
         GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/Qwen/Qwen-VL-Chat
     ```
 
-2. 运行脚本，生成opt之后的版本
+2. generate the weight version for opt
 
     ```shell
         export PYTHONPATH=.
@@ -18,7 +18,7 @@
         python exam/qwen_opt.py
     ```
 
-## 量化
+## Quantization
 
 ### OCRBench
 
