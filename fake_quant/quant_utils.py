@@ -1100,3 +1100,30 @@ def calib_vqa_plus(model, args, dataset, calib_num):
     model_close_calibrate(model.model, args)
     print("Calibrate End...")
     model_quant(model.model, args)
+
+
+def calib_qwen2vl_plus(model, args, dataset, calib_num):
+    lt = len(dataset.data)
+    step = math.ceil(lt / calib_num)
+    print("Calibrating...")
+    model_open_calibrate(model.model, args)
+    max_new_tokens = model.generate_kwargs["max_new_tokens"]
+    model.generate_kwargs["max_new_tokens"] = 20
+    for i in tqdm(range(0, lt, step)):
+        if i + step >= lt:
+            print("last calibrate")
+            model_open_last_calibrate(model.model, args)
+            model.generate_kwargs["max_new_tokens"] = 1
+        if hasattr(model, "use_custom_prompt") and model.use_custom_prompt(
+            args.dataset_name
+        ):
+            struct = model.build_prompt(dataset.data.iloc[i], dataset=args.dataset_name)
+        else:
+            struct = dataset.build_prompt(dataset.data.iloc[i])
+        model.generate(message=struct, dataset=args.dataset_name)
+
+    model.generate_kwargs["max_new_tokens"] = max_new_tokens
+
+    model_close_calibrate(model.model, args)
+    print("Calibrate End...")
+    model_quant(model.model, args)

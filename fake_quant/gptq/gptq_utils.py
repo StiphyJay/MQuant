@@ -236,7 +236,14 @@ class GPTQ:
         H[diag, diag] += damp
         H = torch.linalg.cholesky(H)
         H = torch.cholesky_inverse(H)
-        H = torch.linalg.cholesky(H, upper=True)
+        try:
+            H = torch.linalg.cholesky(H, upper=True)
+        except:
+            self.layer.weight.data = self.quantizer.quantize(W).to(
+                self.layer.weight.data.dtype
+            )
+            return
+            
         Hinv = H
 
         for i1 in range(0, self.columns, blocksize):

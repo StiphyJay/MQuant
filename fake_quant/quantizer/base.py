@@ -24,6 +24,8 @@ class BaseQuantizer(nn.Module):
                 range_shape = (1, 1, -1)
             elif len(inputs.shape) == 4:
                 range_shape = (1, -1, 1, 1)
+            elif len(inputs.shape) == 5:
+                range_shape = (1, -1, 1, 1, 1)
             else:
                 raise NotImplementedError
         else:
