@@ -44,6 +44,10 @@ Unleashing the Inference Potential of Multimodal Large Language Models via Full 
 
 [see here](docs/minicpmv.md)
 
+#### 4. Qwen2VL
+
+[see here](docs/qwen2vl.md)
+
 ## Contact
 
 Any questions or suggestions are welcome! Jiangyong Yu [jiangyongyufocus@gmail.com](mailto:jiangyongyufocus@gmail.com), Sifan Zhou [sifanjay@gmail.com](mailto:sifanjay@gmail.com), Dawei Yang[dawei.yang@houmo.ai](mailto:dawei.yang@houmo.ai).
