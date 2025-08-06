@@ -4,17 +4,20 @@ Offical code for **ACM MM2025** paper [**MQuant:
 Unleashing the Inference Potential of Multimodal Large Language Models via Full Static Quantization**](https://arxiv.org/abs/2502.00425)  ([Arxiv](https://arxiv.org/abs/2502.00425))
 
 ## News
-2025.08.05: 🔥🔥🔥 MQuant for Intern-VL2 and MiniCPM-V has been released. Looking forward to your response!
+2025.08.07: 🔥🔥🔥 MQuant for Qwen-VL2 has been released. Looking forward to your response!
 
-2025.08.04: 🔥🔥🔥 MQuant for Qwen-VL has been released. Looking forward to your response!
+2025.08.05: 🔥🔥🔥 MQuant for Intern-VL2 and MiniCPM-V has been released. 
+
+2025.08.04: 🔥🔥🔥 MQuant for Qwen-VL has been released.
 
 2025.07.06: 🔥🔥🔥 MQuant has been accepted by ACM MM2025.
 
 ## ToDo List
 - [ ] support more MLLMs
+- [ ] release the quantization code for Qwen-VL2
 - [x] release the quantization code for Intern-VL2, MiniCPM-V 
 - [x] release the quantization code for Qwen-VL
-- [x] release the core code after the paper accepted
+- [x] release the core code after the paper is accepted
 - [x] update acknowledgement
 - [x] release the paper link
 
