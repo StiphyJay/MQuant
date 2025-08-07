@@ -14,7 +14,7 @@ Unleashing the Inference Potential of Multimodal Large Language Models via Full 
 
 ## ToDo List
 - [ ] support more MLLMs
-- [ ] release the quantization code for Qwen-VL2
+- [x] release the quantization code for Qwen2-VL
 - [x] release the quantization code for Intern-VL2, MiniCPM-V 
 - [x] release the quantization code for Qwen-VL
 - [x] release the core code after the paper is accepted
