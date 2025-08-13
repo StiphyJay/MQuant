@@ -12,7 +12,7 @@ Unleashing the Inference Potential of Multimodal Large Language Models via Full 
 
 2025.08.04: 🔥🔥🔥 MQuant for Qwen-VL has been released.
 
-2025.07.06: 🔥🔥🔥 MQuant has been accepted by ACM MM2025.
+2025.07.06: 🌟🌟🌟 **MQuant has been accepted by ACM MM 2025. 🎉 Cheers!**
 
 ## ToDo List
 - [x] release the quantization code for Qwen2-VL
